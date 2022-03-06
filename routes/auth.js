@@ -6,8 +6,8 @@ const authController = require('../controllers/auth')
 
 const router = express.Router();
 
-// http://localhost:8080/auth/signup/User  method "PUT"
-router.put(
+// http://localhost:8080/auth/signup/User  method "POST"
+router.post(
   "/signup/User",
   [
     body("firstName")
@@ -49,8 +49,8 @@ router.put(
   
 );
 
-// http://localhost:8080/auth/signup/Doctor  method "PUT"
-router.put(
+// http://localhost:8080/auth/signup/Doctor  method "POST"
+router.post(
   "/signup/Doctor",
   [
     body("firstName")
@@ -102,13 +102,13 @@ router.post('/login/User',
   }
 )
 // http://localhost:8080/auth/login/Admin  method "POST"
-router.post("/login/Admin", async (req, res, next) => {
-  await authController.login(req, "Admin", res, next);
-});
-//http://localhost:8080/auth/login/Doctor  method "POST"
-router.post("/login/Doctor", async (req, res, next) => {
-  await authController.login(req, "Doctor", res, next);
-});
+// router.post("/login/Admin", async (req, res, next) => {
+//   await authController.login(req, "Admin", res, next);
+// });
+// //http://localhost:8080/auth/login/Doctor  method "POST"
+// router.post("/login/Doctor", async (req, res, next) => {
+//   await authController.login(req, "Doctor", res, next);
+// });
 
 // http://localhost:8080/auth/signup/User  method "PUT"
 // http://localhost:8080/auth/login/User  method "POST"
