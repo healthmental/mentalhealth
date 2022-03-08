@@ -6,7 +6,8 @@ const authController = require('../controllers/auth')
 
 const router = express.Router();
 
-// http://localhost:8080/auth/signup/User  method "POST"
+// // http://localhost:8080/auth/signup/User  method "POST"
+// https://healthmental.herokuapp.com/auth/signup/User  [Api-endpoint]
 router.post(
   "/signup/User",
   [
@@ -41,7 +42,16 @@ router.post(
       .normalizeEmail(),
     body("password")
       .trim()
-      .isLength({ min: 5 })
+      .isLength({ min: 5 }),
+    body("trustContact")
+      .not()
+      .isEmpty(),
+    body("contactRelationt")
+      .not()
+      .isEmpty(),
+    body("medicalHistory")
+      .not()
+      .isEmpty(),
   ],
   async (req ,res ,next) => {
     await authController.signupUser(req , "User" , res , next)
@@ -50,6 +60,7 @@ router.post(
 );
 
 // http://localhost:8080/auth/signup/Doctor  method "POST"
+// https://healthmental.herokuapp.com/auth/signup/Doctor  [API-endpoint]
 router.post(
   "/signup/Doctor",
   [
@@ -85,58 +96,38 @@ router.post(
     body("password")
       .trim()
       .isLength({ min: 5 }),
-    body('master')
+    body("trustContact")
+      .not()
+      .isEmpty(),
+    body("contactRelationt")
+      .not()
+      .isEmpty(),
+    body("medicalHistory")
+      .not()
+      .isEmpty(),
+    body("master")
       .not()
       .isEmpty()
       .withMessage("please Enter your master")
   ],
   async (req, res, next) => {
-    await authController.signupDoctor(req, "Doctor", res, next)
+    await authController.signupDoctor(req, "Doctor", res, next);
   }
-
 );
 // http://localhost:8080/auth/login/User  method "POST"
+// https://healthmental.herokuapp.com/auth/login/User [API-endpoint]
 router.post('/login/User',
   async (req, res, next) => {
     await authController.login(req, "User", res, next)
   }
 )
+//http://localhost:8080/auth/login/Doctor  method "POST"
+router.post("/login/Doctor", async (req, res, next) => {
+  await authController.login(req, "Doctor", res, next);
+});
 // http://localhost:8080/auth/login/Admin  method "POST"
 // router.post("/login/Admin", async (req, res, next) => {
 //   await authController.login(req, "Admin", res, next);
 // });
-// //http://localhost:8080/auth/login/Doctor  method "POST"
-// router.post("/login/Doctor", async (req, res, next) => {
-//   await authController.login(req, "Doctor", res, next);
-// });
-
-// http://localhost:8080/auth/signup/User  method "PUT"
-// http://localhost:8080/auth/login/User  method "POST"
-
-// http://localhost:8080/auth/signup/Doctor  method "PUT"
-//http://localhost:8080/auth/login/Doctor  method "POST"
-
-// http://localhost:8080/auth/login/Admin  method "POST"
-
-// keys in user signup form
-//name = "firstName"
-//name = "lastName"
-//name = "mobilePhone"
-//name = "gender"
-//name = "email"
-//name = "password"
-
-// keys in doctor signup form
-//name = "firstName"
-//name = "lastName"
-//name = "mobilePhone"
-//name = "gender"
-//name = "email"
-//name = "password"
-//name = "master"
-
-//keys in user doctor admin login form
-//name = "email"
-//name = "password"
 
 module.exports = router;

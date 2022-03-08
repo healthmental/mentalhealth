@@ -15,9 +15,11 @@ exports.signupUser = async (req,permission, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const birthDate = req.body.birthDate;
-    const address = req.body.address;
-    const city = req.body.city;
-    
+    const trustContact = req.body.trustContact;
+    const contactRelation = req.body.contactRelation;
+    const medicalHistory = req.body.medicalHistory;
+    const sessions = req.body.sessions;
+        
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -35,8 +37,10 @@ exports.signupUser = async (req,permission, res, next) => {
             email: email,
             password: hashedPW,
             birthDate: birthDate,
-            address: address,
-            city: city,
+            trustContact: trustContact,
+            contactRelation: contactRelation,
+            medicalHistory: medicalHistory,
+            sessions: sessions,
             permission: permission
         })
         const result = await user.save();
@@ -60,8 +64,10 @@ exports.signupDoctor = async (req, permission, res, next) => {
     const password = req.body.password;
     const master = req.body.master;
     const birthDate = req.body.birthDate;
-    const address = req.body.address;
-    const city = req.body.city;
+    const trustContact = req.body.trustContact;
+    const contactRelation = req.body.contactRelation;
+    const medicalHistory = req.body.medicalHistory;
+    const sessions = req.body.sessions;
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -73,16 +79,18 @@ exports.signupDoctor = async (req, permission, res, next) => {
         const hashedPW = await bcrypt.hash(password, 12);
 
         const user = new Doctor({
-            name: name,
-            mobilePhone: mobilePhone,
-            gender: gender,
-            email: email,
-            password: hashedPW,
-            master: master,
-            birthDate: birthDate,
-            address: address,
-            city: city,
-            permission: permission
+        name: name,
+        mobilePhone: mobilePhone,
+        gender: gender,
+        email: email,
+        password: hashedPW,
+        master: master,
+        birthDate: birthDate,
+        trustContact: trustContact,
+        contactRelation: contactRelation,
+        medicalHistory: medicalHistory,
+        sessions: sessions,
+        permission: permission
         });
         const result = await user.save();
         res.status(201).json({ message: 'Doctor created!', userId: result._id });
@@ -176,7 +184,7 @@ exports.login = async (req, permission ,res, next) => {
             'mysupersecret',
             { expiresIn: "1d" }
         );
-        res.status(200).json({ token: token, userId: loadedUser._id.toString() })
+        res.status(200).header('token',token).json({userId: loadedUser._id.toString() })
     } catch (error) {
         if (!error.statusCode) {
             error.statusCode = 500;

@@ -32,12 +32,20 @@ const userSchema = new Schema(
       type: String,
       required: true
     },
-    address: {
+    trustContact: {
       type: String,
       required: true
     },
-    city: {
+    contactRelation: {
       type: String,
+      required: true
+    },
+    medicalHistory: {
+      type: String,
+      required: true
+    },
+    sessions: {
+      type: [String],
       required: true
     },
     permission: {
