@@ -46,7 +46,7 @@ router.post(
     body("trustContact")
       .not()
       .isEmpty(),
-    body("contactRelationt")
+    body("contactRelation")
       .not()
       .isEmpty(),
     body("medicalHistory")
